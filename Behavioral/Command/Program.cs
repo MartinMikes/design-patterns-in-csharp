@@ -13,21 +13,26 @@ namespace Command
     // Receiver
     public class Light
     {
-        private string location;
+        // Using C# 14 field keyword for cleaner implementation
+        public string Location
+        {
+            get;
+            init => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
 
         public Light(string location)
         {
-            this.location = location;
+            Location = location;
         }
 
         public void TurnOn()
         {
-            Console.WriteLine($"{location} light is ON");
+            Console.WriteLine($"{Location} light is ON");
         }
 
         public void TurnOff()
         {
-            Console.WriteLine($"{location} light is OFF");
+            Console.WriteLine($"{Location} light is OFF");
         }
     }
 

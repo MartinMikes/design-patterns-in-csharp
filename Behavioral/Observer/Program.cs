@@ -21,14 +21,15 @@ namespace Observer
     public class WeatherStation : ISubject
     {
         private List<IObserver> observers = new List<IObserver>();
-        private string weather;
 
+        // Using C# 14 field keyword with change notification
         public string Weather
         {
-            get { return weather; }
+            get;
             set
             {
-                weather = value;
+                if (field == value) return;
+                field = value;
                 Notify();
             }
         }
@@ -50,7 +51,7 @@ namespace Observer
             Console.WriteLine("WeatherStation: Notifying observers...");
             foreach (var observer in observers)
             {
-                observer.Update(weather);
+                observer.Update(Weather);
             }
         }
     }

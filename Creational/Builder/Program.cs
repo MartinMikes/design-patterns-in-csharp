@@ -6,11 +6,27 @@ namespace Builder
     // Product
     public class Computer
     {
-        public string CPU { get; set; }
-        public string RAM { get; set; }
-        public string Storage { get; set; }
-        public string GPU { get; set; }
-        public string OS { get; set; }
+        // Using C# 14 field keyword for validation
+        public string CPU
+        {
+            get;
+            set => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public string RAM
+        {
+            get;
+            set => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public string Storage
+        {
+            get;
+            set => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public string? GPU { get; set; }
+        public string? OS { get; set; }
 
         public override string ToString()
         {

@@ -11,46 +11,61 @@ namespace Strategy
     // Concrete Strategies
     public class CreditCardPayment : IPaymentStrategy
     {
-        private string cardNumber;
+        // Using C# 14 field keyword for property
+        public string CardNumber
+        {
+            get;
+            init => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
 
         public CreditCardPayment(string cardNumber)
         {
-            this.cardNumber = cardNumber;
+            CardNumber = cardNumber;
         }
 
         public void Pay(decimal amount)
         {
-            Console.WriteLine($"Paid ${amount} using Credit Card ending in {cardNumber.Substring(cardNumber.Length - 4)}");
+            Console.WriteLine($"Paid ${amount} using Credit Card ending in {CardNumber.Substring(CardNumber.Length - 4)}");
         }
     }
 
     public class PayPalPayment : IPaymentStrategy
     {
-        private string email;
+        // Using C# 14 field keyword
+        public string Email
+        {
+            get;
+            init => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
 
         public PayPalPayment(string email)
         {
-            this.email = email;
+            Email = email;
         }
 
         public void Pay(decimal amount)
         {
-            Console.WriteLine($"Paid ${amount} using PayPal account {email}");
+            Console.WriteLine($"Paid ${amount} using PayPal account {Email}");
         }
     }
 
     public class BitcoinPayment : IPaymentStrategy
     {
-        private string walletAddress;
+        // Using C# 14 field keyword
+        public string WalletAddress
+        {
+            get;
+            init => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
 
         public BitcoinPayment(string walletAddress)
         {
-            this.walletAddress = walletAddress;
+            WalletAddress = walletAddress;
         }
 
         public void Pay(decimal amount)
         {
-            Console.WriteLine($"Paid ${amount} using Bitcoin wallet {walletAddress}");
+            Console.WriteLine($"Paid ${amount} using Bitcoin wallet {WalletAddress}");
         }
     }
 
@@ -66,6 +81,7 @@ namespace Strategy
 
         public void Checkout(decimal amount)
         {
+            // Using C# 14 null-conditional assignment
             if (paymentStrategy == null)
             {
                 Console.WriteLine("Please select a payment method");

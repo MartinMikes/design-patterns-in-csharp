@@ -26,21 +26,26 @@ namespace Decorator
     // Base Decorator
     public abstract class CoffeeDecorator : ICoffee
     {
-        protected ICoffee coffee;
+        // Using C# 14 field keyword with required modifier
+        protected ICoffee Coffee
+        {
+            get;
+            init => field = value ?? throw new ArgumentNullException(nameof(value));
+        }
 
         public CoffeeDecorator(ICoffee coffee)
         {
-            this.coffee = coffee;
+            Coffee = coffee;
         }
 
         public virtual string GetDescription()
         {
-            return coffee.GetDescription();
+            return Coffee.GetDescription();
         }
 
         public virtual double GetCost()
         {
-            return coffee.GetCost();
+            return Coffee.GetCost();
         }
     }
 
@@ -51,12 +56,12 @@ namespace Decorator
 
         public override string GetDescription()
         {
-            return coffee.GetDescription() + ", Milk";
+            return Coffee.GetDescription() + ", Milk";
         }
 
         public override double GetCost()
         {
-            return coffee.GetCost() + 0.50;
+            return Coffee.GetCost() + 0.50;
         }
     }
 
@@ -66,12 +71,12 @@ namespace Decorator
 
         public override string GetDescription()
         {
-            return coffee.GetDescription() + ", Sugar";
+            return Coffee.GetDescription() + ", Sugar";
         }
 
         public override double GetCost()
         {
-            return coffee.GetCost() + 0.25;
+            return Coffee.GetCost() + 0.25;
         }
     }
 
@@ -81,12 +86,12 @@ namespace Decorator
 
         public override string GetDescription()
         {
-            return coffee.GetDescription() + ", Whipped Cream";
+            return Coffee.GetDescription() + ", Whipped Cream";
         }
 
         public override double GetCost()
         {
-            return coffee.GetCost() + 0.75;
+            return Coffee.GetCost() + 0.75;
         }
     }
 

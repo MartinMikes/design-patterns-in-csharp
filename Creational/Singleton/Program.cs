@@ -4,10 +4,11 @@ namespace Singleton
 {
     /// <summary>
     /// Thread-safe Singleton implementation using lazy initialization
+    /// Compatible with .NET 10 and C# 14
     /// </summary>
     public sealed class Singleton
     {
-        private static readonly Lazy<Singleton> lazy = 
+        private static readonly Lazy<Singleton> lazy =
             new Lazy<Singleton>(() => new Singleton());
 
         public static Singleton Instance { get { return lazy.Value; } }

@@ -25,22 +25,23 @@ namespace Adapter
     // Adapter - Makes AdvancedMediaPlayer compatible with IMediaPlayer
     public class MediaAdapter : IMediaPlayer
     {
-        private AdvancedMediaPlayer advancedPlayer;
+        // Using C# 14 field keyword
+        private AdvancedMediaPlayer AdvancedPlayer { get; init; }
 
         public MediaAdapter(string audioType)
         {
-            advancedPlayer = new AdvancedMediaPlayer();
+            AdvancedPlayer = new AdvancedMediaPlayer();
         }
 
         public void Play(string audioType, string fileName)
         {
             if (audioType.Equals("mp4", StringComparison.OrdinalIgnoreCase))
             {
-                advancedPlayer.PlayMp4(fileName);
+                AdvancedPlayer.PlayMp4(fileName);
             }
             else if (audioType.Equals("vlc", StringComparison.OrdinalIgnoreCase))
             {
-                advancedPlayer.PlayVlc(fileName);
+                AdvancedPlayer.PlayVlc(fileName);
             }
         }
     }
@@ -48,7 +49,7 @@ namespace Adapter
     // Client class
     public class AudioPlayer : IMediaPlayer
     {
-        private MediaAdapter mediaAdapter;
+        private MediaAdapter? mediaAdapter;
 
         public void Play(string audioType, string fileName)
         {

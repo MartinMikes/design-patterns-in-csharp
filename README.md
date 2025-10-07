@@ -46,6 +46,18 @@ Each pattern directory contains:
 - `README.md` - Documentation explaining the pattern
 - A minimalistic C# application demonstrating the pattern
 
+### Requirements
+
+These samples are built with:
+- **.NET 10** - The latest LTS release with enhanced runtime performance
+- **C# 14** - Featuring new language improvements including:
+  - `field` keyword for cleaner property implementations
+  - Null-conditional assignment (`?.=`)
+  - Extension members and improved `Span<T>` support
+  - Enhanced lambda expressions
+
+To run the samples, install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
+
 ## Contributing
 
 Feel free to contribute by adding more examples or improving existing documentation.
