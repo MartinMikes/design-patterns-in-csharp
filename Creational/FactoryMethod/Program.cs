@@ -1,77 +1,78 @@
 using System;
 
-namespace FactoryMethod
+namespace FactoryMethod;
+// Product interface
+public interface IDocument
 {
-    // Product interface
-    public interface IDocument
+    void Open();
+    void Save();
+}
+
+// Concrete Products
+public class PdfDocument : IDocument
+{
+    public void Open() => Console.WriteLine("Opening PDF document");
+    public void Save() => Console.WriteLine("Saving PDF document");
+}
+
+public class WordDocument : IDocument
+{
+    public void Open() => Console.WriteLine("Opening Word document");
+    public void Save() => Console.WriteLine("Saving Word document");
+}
+
+// Creator (abstract class)
+public abstract class DocumentCreator
+{
+    // Factory Method
+    public abstract IDocument CreateDocument();
+
+    public void ProcessDocument()
     {
-        void Open();
-        void Save();
+        IDocument doc = CreateDocument();
+        doc.Open();
+        doc.Save();
     }
+}
 
-    // Concrete Products
-    public class PdfDocument : IDocument
+// Concrete Creators
+public class PdfDocumentCreator : DocumentCreator
+{
+    public override IDocument CreateDocument()
     {
-        public void Open() => Console.WriteLine("Opening PDF document");
-        public void Save() => Console.WriteLine("Saving PDF document");
+        return new PdfDocument();
     }
+}
 
-    public class WordDocument : IDocument
+public class WordDocumentCreator : DocumentCreator
+{
+    public override IDocument CreateDocument()
     {
-        public void Open() => Console.WriteLine("Opening Word document");
-        public void Save() => Console.WriteLine("Saving Word document");
+        return new WordDocument();
     }
+}
 
-    // Creator (abstract class)
-    public abstract class DocumentCreator
+class Program
+{
+    static void Main(string[] args)
     {
-        // Factory Method
-        public abstract IDocument CreateDocument();
+        Console.WriteLine("=== Factory Method Pattern Demo ===");
+        Console.WriteLine();
 
-        public void ProcessDocument()
-        {
-            IDocument doc = CreateDocument();
-            doc.Open();
-            doc.Save();
-        }
-    }
+        DocumentCreator creator;
 
-    // Concrete Creators
-    public class PdfDocumentCreator : DocumentCreator
-    {
-        public override IDocument CreateDocument()
-        {
-            return new PdfDocument();
-        }
-    }
+        // Create and process a PDF document
+        Console.WriteLine("Creating PDF document:");
+        creator = new PdfDocumentCreator();
+        creator.ProcessDocument();
 
-    public class WordDocumentCreator : DocumentCreator
-    {
-        public override IDocument CreateDocument()
-        {
-            return new WordDocument();
-        }
-    }
+        Console.WriteLine();
+        Console.WriteLine("Creating Word document:");
+        creator = new WordDocumentCreator();
+        creator.ProcessDocument();
 
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("=== Factory Method Pattern Demo ===\n");
-
-            DocumentCreator creator;
-
-            // Create and process a PDF document
-            Console.WriteLine("Creating PDF document:");
-            creator = new PdfDocumentCreator();
-            creator.ProcessDocument();
-
-            Console.WriteLine("\nCreating Word document:");
-            creator = new WordDocumentCreator();
-            creator.ProcessDocument();
-
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
-        }
+        Console.WriteLine();
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }

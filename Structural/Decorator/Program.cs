@@ -1,128 +1,124 @@
 using System;
 
-namespace Decorator
+namespace Decorator;
+
+// Component interface
+public interface ICoffee
 {
-    // Component interface
-    public interface ICoffee
+    string GetDescription();
+    double GetCost();
+}
+
+// Concrete Component
+public class SimpleCoffee : ICoffee
+{
+    public string GetDescription()
     {
-        string GetDescription();
-        double GetCost();
+        return "Simple Coffee";
     }
 
-    // Concrete Component
-    public class SimpleCoffee : ICoffee
+    public double GetCost()
     {
-        public string GetDescription()
-        {
-            return "Simple Coffee";
-        }
+        return 2.00;
+    }
+}
 
-        public double GetCost()
-        {
-            return 2.00;
-        }
+// Base Decorator
+public abstract class CoffeeDecorator(ICoffee coffee) : ICoffee
+{
+    // Using C# 14 field keyword with required modifier
+    protected ICoffee Coffee
+    {
+        get;
+        init => field = value ?? throw new ArgumentNullException(nameof(value));
+    } = coffee;
+
+    public virtual string GetDescription()
+    {
+        return Coffee.GetDescription();
     }
 
-    // Base Decorator
-    public abstract class CoffeeDecorator : ICoffee
+    public virtual double GetCost()
     {
-        // Using C# 14 field keyword with required modifier
-        protected ICoffee Coffee
-        {
-            get;
-            init => field = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        return Coffee.GetCost();
+    }
+}
 
-        public CoffeeDecorator(ICoffee coffee)
-        {
-            Coffee = coffee;
-        }
+// Concrete Decorators
+public class MilkDecorator : CoffeeDecorator
+{
+    public MilkDecorator(ICoffee coffee) : base(coffee) { }
 
-        public virtual string GetDescription()
-        {
-            return Coffee.GetDescription();
-        }
-
-        public virtual double GetCost()
-        {
-            return Coffee.GetCost();
-        }
+    public override string GetDescription()
+    {
+        return Coffee.GetDescription() + ", Milk";
     }
 
-    // Concrete Decorators
-    public class MilkDecorator : CoffeeDecorator
+    public override double GetCost()
     {
-        public MilkDecorator(ICoffee coffee) : base(coffee) { }
+        return Coffee.GetCost() + 0.50;
+    }
+}
 
-        public override string GetDescription()
-        {
-            return Coffee.GetDescription() + ", Milk";
-        }
+public class SugarDecorator : CoffeeDecorator
+{
+    public SugarDecorator(ICoffee coffee) : base(coffee) { }
 
-        public override double GetCost()
-        {
-            return Coffee.GetCost() + 0.50;
-        }
+    public override string GetDescription()
+    {
+        return Coffee.GetDescription() + ", Sugar";
     }
 
-    public class SugarDecorator : CoffeeDecorator
+    public override double GetCost()
     {
-        public SugarDecorator(ICoffee coffee) : base(coffee) { }
+        return Coffee.GetCost() + 0.25;
+    }
+}
 
-        public override string GetDescription()
-        {
-            return Coffee.GetDescription() + ", Sugar";
-        }
+public class WhipDecorator : CoffeeDecorator
+{
+    public WhipDecorator(ICoffee coffee) : base(coffee) { }
 
-        public override double GetCost()
-        {
-            return Coffee.GetCost() + 0.25;
-        }
+    public override string GetDescription()
+    {
+        return Coffee.GetDescription() + ", Whipped Cream";
     }
 
-    public class WhipDecorator : CoffeeDecorator
+    public override double GetCost()
     {
-        public WhipDecorator(ICoffee coffee) : base(coffee) { }
-
-        public override string GetDescription()
-        {
-            return Coffee.GetDescription() + ", Whipped Cream";
-        }
-
-        public override double GetCost()
-        {
-            return Coffee.GetCost() + 0.75;
-        }
+        return Coffee.GetCost() + 0.75;
     }
+}
 
-    class Program
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("=== Decorator Pattern Demo ===\n");
+        Console.WriteLine("=== Decorator Pattern Demo ===");
+        Console.WriteLine();
 
-            // Simple coffee
-            ICoffee coffee = new SimpleCoffee();
-            Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
+        // Simple coffee
+        ICoffee coffee = new SimpleCoffee();
+        Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
 
-            // Coffee with milk
-            coffee = new MilkDecorator(new SimpleCoffee());
-            Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
+        // Coffee with milk
+        coffee = new MilkDecorator(new SimpleCoffee());
+        Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
 
-            // Coffee with milk and sugar
-            coffee = new SugarDecorator(new MilkDecorator(new SimpleCoffee()));
-            Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
+        // Coffee with milk and sugar
+        coffee = new SugarDecorator(new MilkDecorator(new SimpleCoffee()));
+        Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
 
-            // Coffee with everything
-            coffee = new WhipDecorator(
-                new SugarDecorator(
-                    new MilkDecorator(new SimpleCoffee())
-                )
-            );
-            Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
+        // Coffee with everything
+        coffee = new WhipDecorator(
+            new SugarDecorator(
+                new MilkDecorator(new SimpleCoffee())
+            )
+        );
+        Console.WriteLine($"{coffee.GetDescription()} - ${coffee.GetCost()}");
 
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
-        }
+        Console.WriteLine();
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }
