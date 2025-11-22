@@ -1,4 +1,4 @@
-# Design Patterns in C#
+# Design Patterns in C\#
 
 A comprehensive guide to design patterns in C#, inspired by the Gang of Four (GoF) book. This repository contains documentation and minimalistic code samples demonstrating each design pattern.
 
@@ -7,6 +7,7 @@ A comprehensive guide to design patterns in C#, inspired by the Gang of Four (Go
 The patterns are organized into three main categories:
 
 ### Creational Patterns
+
 Patterns that deal with object creation mechanisms.
 
 - **[Singleton](./Creational/Singleton)** - Ensures a class has only one instance
@@ -16,6 +17,7 @@ Patterns that deal with object creation mechanisms.
 - **[Prototype](./Creational/Prototype)** - Creates new objects by copying existing ones
 
 ### Structural Patterns
+
 Patterns that deal with object composition and relationships.
 
 - **[Adapter](./Structural/Adapter)** - Allows incompatible interfaces to work together
@@ -27,6 +29,7 @@ Patterns that deal with object composition and relationships.
 - **[Proxy](./Structural/Proxy)** - Provides a surrogate or placeholder for another object
 
 ### Behavioral Patterns
+
 Patterns that deal with object collaboration and responsibility.
 
 - **[Chain of Responsibility](./Behavioral/ChainOfResponsibility)** - Passes requests along a chain of handlers
@@ -43,12 +46,14 @@ Patterns that deal with object collaboration and responsibility.
 ## How to Use
 
 Each pattern directory contains:
+
 - `README.md` - Documentation explaining the pattern
 - A minimalistic C# application demonstrating the pattern
 
 ### Requirements
 
 These samples are built with:
+
 - **.NET 10** - The latest LTS release with enhanced runtime performance
 - **C# 14** - Featuring new language improvements including:
   - `field` keyword for cleaner property implementations
