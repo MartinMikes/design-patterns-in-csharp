@@ -1,107 +1,111 @@
 using System;
 
-namespace Strategy
+namespace Strategy;
+
+// Strategy interface
+public interface IPaymentStrategy
 {
-    // Strategy interface
-    public interface IPaymentStrategy
+    void Pay(decimal amount);
+}
+
+// Concrete Strategies
+public class CreditCardPayment(string cardNumber) : IPaymentStrategy
+{
+    // Using C# 14 field keyword for property
+    public string CardNumber
     {
-        void Pay(decimal amount);
+        get;
+        init => field = value ?? throw new ArgumentNullException(nameof(value));
+    } = cardNumber;
+
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine($"Paid ${amount} using Credit Card ending in {CardNumber.Substring(CardNumber.Length - 4)}");
+    }
+}
+
+public class PayPalPayment(string email) : IPaymentStrategy
+{
+    // Using C# 14 field keyword
+    public string Email
+    {
+        get;
+        init => field = value ?? throw new ArgumentNullException(nameof(value));
+    } = email;
+
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine($"Paid ${amount} using PayPal account {Email}");
+    }
+}
+
+public class BitcoinPayment(string walletAddress) : IPaymentStrategy
+{
+    // Using C# 14 field keyword
+    public string WalletAddress
+    {
+        get;
+        init => field = value ?? throw new ArgumentNullException(nameof(value));
+    } = walletAddress;
+
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine($"Paid ${amount} using Bitcoin wallet {WalletAddress}");
+    }
+}
+
+// Context
+public class ShoppingCart
+{
+    private IPaymentStrategy paymentStrategy;
+
+    public void SetPaymentStrategy(IPaymentStrategy strategy)
+    {
+        this.paymentStrategy = strategy;
     }
 
-    // Concrete Strategies
-    public class CreditCardPayment : IPaymentStrategy
+    public void Checkout(decimal amount)
     {
-        private string cardNumber;
-
-        public CreditCardPayment(string cardNumber)
+        // Using C# 14 null-conditional assignment
+        if (paymentStrategy == null)
         {
-            this.cardNumber = cardNumber;
+            Console.WriteLine("Please select a payment method");
+            return;
         }
 
-        public void Pay(decimal amount)
-        {
-            Console.WriteLine($"Paid ${amount} using Credit Card ending in {cardNumber.Substring(cardNumber.Length - 4)}");
-        }
+        paymentStrategy.Pay(amount);
     }
+}
 
-    public class PayPalPayment : IPaymentStrategy
+class Program
+{
+    static void Main(string[] args)
     {
-        private string email;
+        Console.WriteLine("=== Strategy Pattern Demo ===");
+        Console.WriteLine();
 
-        public PayPalPayment(string email)
-        {
-            this.email = email;
-        }
+        var cart = new ShoppingCart();
+        decimal totalAmount = 250.00m;
 
-        public void Pay(decimal amount)
-        {
-            Console.WriteLine($"Paid ${amount} using PayPal account {email}");
-        }
-    }
+        // Pay with Credit Card
+        Console.WriteLine("Paying with Credit Card:");
+        cart.SetPaymentStrategy(new CreditCardPayment("1234-5678-9012-3456"));
+        cart.Checkout(totalAmount);
 
-    public class BitcoinPayment : IPaymentStrategy
-    {
-        private string walletAddress;
+        // Pay with PayPal
+        Console.WriteLine();
+        Console.WriteLine("Paying with PayPal:");
+        cart.SetPaymentStrategy(new PayPalPayment("user@example.com"));
+        cart.Checkout(totalAmount);
 
-        public BitcoinPayment(string walletAddress)
-        {
-            this.walletAddress = walletAddress;
-        }
+        // Pay with Bitcoin
+        Console.WriteLine();
+        Console.WriteLine("Paying with Bitcoin:");
+        cart.SetPaymentStrategy(new BitcoinPayment("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"));
+        cart.Checkout(totalAmount);
 
-        public void Pay(decimal amount)
-        {
-            Console.WriteLine($"Paid ${amount} using Bitcoin wallet {walletAddress}");
-        }
-    }
-
-    // Context
-    public class ShoppingCart
-    {
-        private IPaymentStrategy paymentStrategy;
-
-        public void SetPaymentStrategy(IPaymentStrategy strategy)
-        {
-            this.paymentStrategy = strategy;
-        }
-
-        public void Checkout(decimal amount)
-        {
-            if (paymentStrategy == null)
-            {
-                Console.WriteLine("Please select a payment method");
-                return;
-            }
-
-            paymentStrategy.Pay(amount);
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("=== Strategy Pattern Demo ===\n");
-
-            var cart = new ShoppingCart();
-            decimal totalAmount = 250.00m;
-
-            // Pay with Credit Card
-            Console.WriteLine("Paying with Credit Card:");
-            cart.SetPaymentStrategy(new CreditCardPayment("1234-5678-9012-3456"));
-            cart.Checkout(totalAmount);
-
-            // Pay with PayPal
-            Console.WriteLine("\nPaying with PayPal:");
-            cart.SetPaymentStrategy(new PayPalPayment("user@example.com"));
-            cart.Checkout(totalAmount);
-
-            // Pay with Bitcoin
-            Console.WriteLine("\nPaying with Bitcoin:");
-            cart.SetPaymentStrategy(new BitcoinPayment("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"));
-            cart.Checkout(totalAmount);
-
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
-        }
+        Console.WriteLine();
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }

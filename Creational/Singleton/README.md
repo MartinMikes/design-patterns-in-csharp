@@ -31,7 +31,7 @@ See the [Program.cs](./Program.cs) file for a thread-safe implementation example
 ### How to Run
 1. Create a .NET console project in this directory:
    ```bash
-   dotnet new console -n Singleton -f net9.0
+   dotnet new console -n Singleton -f net10.0
    ```
 2. Replace the generated Program.cs with the provided one
 3. Run the application:
